@@ -5,6 +5,7 @@ DB = CONN.cursor()
 
 def get_student_by_github(github):
     query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
+    print "Test"
     DB.execute(query, (github,))
     row = DB.fetchone()
     print """\
@@ -31,13 +32,16 @@ Project: %s
 Grade: %s""" %(row[0], row[1], row[2])
 
 def show_grades(student_github):
+
     query = """SELECT student_github, project_title, grade FROM Grades WHERE student_github = ?"""
     DB.execute(query, (student_github,))
     rows = DB.fetchall()
-    print """\
-Student: %s
-Project: %s
-Grade: %s""" %(row[0], row[1], row[2])
+
+    for row in rows:
+        print """\
+    Student: %s
+    Project: %s
+    Grade: %s""" %(row[0], row[1], row[2])
 
 def make_new_project(title, description, max_grade):
     query = """INSERT into Projects values (?, ?, ?)"""
