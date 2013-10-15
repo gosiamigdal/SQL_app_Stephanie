@@ -1,0 +1,6 @@
+<h1>Grades for {{project_title}}</h1>
+<ul>
+{% for grade in grades %}
+<li>Student: <a href="/student?github={{grade[0]}}">{{grade[0]}}</a>, Grade: {{grade[2]}}</li>
+{% endfor %}
+</ul>

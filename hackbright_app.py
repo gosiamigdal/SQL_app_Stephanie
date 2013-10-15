@@ -21,15 +21,14 @@ def make_new_student(first_name, last_name, github):
     CONN.commit()
     print "Successfully added student: %s %s" % (first_name, last_name)
 
+    return first_name, last_name, github
+
 # query for projects by title
 def get_project_by_title(title):
     query = """SELECT title, description, max_grade FROM Projects WHERE title = ?"""
     DB.execute(query, (title,))
     row = DB.fetchone()
-    print """\
-        Project Title: %s
-        Description: %s
-        Maximum grade: %d""" % (row[0], row[1], row[2])
+    return row
 
 # add a project
 def add_project(title, description, max_grade):
@@ -37,6 +36,8 @@ def add_project(title, description, max_grade):
     DB.execute(query, (title, description, max_grade))
     CONN.commit()
     print "Successfully added Project: %s %s %s" % (title, description, max_grade)
+    return title, description, max_grade
+
 
 # query for a student's grade given a project
 def student_grade_project(project_title):

@@ -5,7 +5,7 @@
 <div>Grades</div>
 <ul>
 {% for grade in grades %}
-<li>{{grade[0]}} {{grade[1]}} {{grade[2]}}</li>
+<li>{{grade[0]}} <a href="/project?project_title={{grade[1]}}">{{grade[1]}}</a> {{grade[2]}}</li>
 {% endfor %}
 </ul>
 <p>This student has shown extreme recalcitrance and has generally proved to be unreliable.</p>

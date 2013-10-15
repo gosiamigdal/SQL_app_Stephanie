@@ -24,32 +24,62 @@ def get_student():
     )
     return html
 
-@app.route("/grade")
-def get_grades():
-    raise TypeError
+
+@app.route("/create_student")
+def create_student():
     hackbright_app.connect_to_db()
+
+    first_name = request.args.get("first_name")
+    last_name = request.args.get("last_name")
     github = request.args.get("github")
 
-    student = hackbright_app.get_student_by_github(github)
-    projects = hackbright_app.show_all_grades(github)
+    exists = hackbright_app.get_student_by_github(github)
 
-    html = render_template("student_info.html",
-        first_name=student[0],
-        last_name=student[1],
-        github=student[2],
-        projects=projects,
-    )
-    return html
+    if not exists:
+        exists = hackbright_app.make_new_student(
+            first_name,
+            last_name,
+            github,
+        )
 
-@app.route("/show_grades") #This one doesn't work yet
-def show_grades():
+    return "Success: %s %s %s" % exists
+
+
+@app.route("/create_project")
+def create_project():
+    hackbright_app.connect_to_db()
+
+    project_title = request.args.get('project_title')
+    project_description = request.args.get('project_description')
+    project_max_grade = request.args.get('project_max_grade')
+
+    exists = hackbright_app.get_project_by_title(project_title)
+
+    if not exists:
+        exists = hackbright_app.add_project(
+            project_title,
+            project_description,
+            project_max_grade,
+        )
+
+    return "Success: %s %s %s" % exists
+
+
+@app.route("/project") #This one doesn't work yet
+def get_project():
     hackbright_app.connect_to_db()
     project_title = request.args.get("project_title")
-    rows = hackbright_app.student_grade_project(project_title)
-    html = render_template("grades_handler.html", project_title=project_title,
-                                                grade=rows)
+
+    grades = hackbright_app.student_grade_project(project_title)
+
+    html = render_template(
+        "project_info.html",
+        project_title=project_title,
+        grades=grades,
+    )
 
     return html
+
 
 if __name__ == "__main__":
     app.run(debug=True)
