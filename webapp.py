@@ -77,8 +77,8 @@ def create_grade():
 
     does_exist = False
 
-    for grade in grades:
-        if grade[0] == student_github:
+    for row in grades:
+        if row[0] == student_github:
             does_exist = True
             break
 
