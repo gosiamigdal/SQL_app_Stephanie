@@ -52,6 +52,7 @@ def give_grade_to_student(student_github, project_title, grade):
     DB.execute(query, (student_github, project_title, grade))
     CONN.commit()
     print "Successfully added: %s, %s, %s to Grades." % (student_github, project_title, grade)
+    return student_github, project_title, grade
 
 # show all the grades for a student
 def show_all_grades(student_github):

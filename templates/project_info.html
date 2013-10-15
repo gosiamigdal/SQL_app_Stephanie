@@ -3,4 +3,13 @@
 {% for grade in grades %}
 <li>Student: <a href="/student?github={{grade[0]}}">{{grade[0]}}</a>, Grade: {{grade[2]}}</li>
 {% endfor %}
+
+<form action="/create_grade">
+    <label for="grade">Add Grade</label>
+    <input type="text" name="student_github" placeholder="Student Github Handle" />
+    <input type="text" name="project_title" value="{{project_title}}"/>
+    <input type="text" name="grade" placeholder="Student Grade" />
+    <input type="submit">
+</form>
+
 </ul>

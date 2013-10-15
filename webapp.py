@@ -65,7 +65,35 @@ def create_project():
     return "Success: %s %s %s" % exists
 
 
-@app.route("/project") #This one doesn't work yet
+@app.route("/create_grade")
+def create_grade():
+    hackbright_app.connect_to_db()
+
+    student_github = request.args.get('student_github')
+    project_title = request.args.get('project_title')
+    grade = request.args.get('grade')
+
+    grades = hackbright_app.student_grade_project(project_title)
+
+    does_exist = False
+
+    for grade in grades:
+        if grade[0] == student_github:
+            does_exist = True
+            break
+
+    if not does_exist:
+        grade = hackbright_app.give_grade_to_student(
+            student_github,
+            project_title,
+            grade,
+        )
+        return "Success: %s %s %s" % grade
+    else:
+        return "Student %s already has a grade for this project" % student_github
+
+
+@app.route("/project")
 def get_project():
     hackbright_app.connect_to_db()
     project_title = request.args.get("project_title")
